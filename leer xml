@@ -1,0 +1,159 @@
+using System;
+
+using System.Xml;
+
+namespace xmltest
+
+{
+
+class Program
+
+{
+
+static void Main(string[] args)
+
+{
+	            XmlDocument xDoc = new XmlDocument();
+				xDoc.Load("../../../../personas1.xml"); 
+                XmlNodeList xPersonas = xDoc.GetElementsByTagName("personas");
+                XmlNodeList xLista = ((XmlElement)xPersonas[0]).GetElementsByTagName("nombre");
+
+                foreach (XmlElement nodo in xLista)
+                {
+                    string xEdad = nodo.GetAttribute("edad");
+                    string xNombre = nodo.InnerText;
+                    
+                }
+				
+				}
+				
+				
+				XmlNodeList personas = xDoc.GetElementsByTagName("personas");
+
+XmlNodeList lista = 
+    ((XmlElement)personas[0]).GetElementsByTagName("persona"); 
+
+foreach (XmlElement nodo in lista)
+
+{
+
+int i=0;
+
+XmlNodeList nNombre = 
+nodo.GetElementsByTagName("nombre");
+
+XmlNodeList nApellido1 = 
+nodo.GetElementsByTagName("apellido1");
+
+XmlNodeList nApellido2 = 
+nodo.GetElementsByTagName("apellido2");
+
+Console.WriteLine("Elemento nombre ... {0} {1} {2}", 
+                             nNombre[i].InnerText, 
+                             nApellido1[i].InnerText,
+                             nApellido2[i++].InnerText);
+
+}
+
+
+XmlNodeList personas = xDoc.GetElementsByTagName("personas");
+
+XmlNodeList lista = 
+((XmlElement)personas[0]).GetElementsByTagName("persona"); 
+
+foreach (XmlElement nodo in lista)
+
+{
+
+int i=0;
+
+XmlNodeList nNombre = nodo.GetElementsByTagName("nombre");
+
+XmlNodeList nApellido1 = nodo.GetElementsByTagName("apellido1");
+
+XmlNodeList nApellido2 = nodo.GetElementsByTagName("apellido2");
+
+Console.WriteLine("Elemento nombre ... {0} {1} {2}", 
+                             nNombre[i].InnerText, 
+                             nApellido1[i].InnerText,
+                             nApellido2[i++].InnerText);
+
+}
+
+
+
+public Hashtable lectorXML(String file_path)
+{
+   Hashtable tabla = new Hashtable();
+   XmlTextReader reader = new XmlTextReader(file_path);
+   String atributo, nombre;
+   atributo = String.Empty;
+   nombre = String.Empty;
+   while (reader.Read())
+   {
+      if (reader.NodeType == XmlNodeType.Element)
+      {
+         nombre = reader.Name;
+      }
+      else
+      {
+         if (reader.NodeType == XmlNodeType.Text)
+         {
+            atributo = reader.Value.Replace("\r\n", String.Empty).Trim();
+         }
+      }
+      if (atributo != String.Empty && nombre != String.Empty)
+      {
+         tabla.Add(nombre, atributo);
+         atributo = String.Empty;
+         nombre = String.Empty;
+      }
+   }
+   reader.Close();
+   return tabla;
+}
+
+
+
+// se Carga todo el XML en el objeto libro
+XDocument libroRaiz = XDocument.Load("tuarchivo.xml", LoadOptions.None);
+//usa éste siguiente para cargar desde texto (string) en vez de un archivo
+//XDocument doc = XDocument.Parse(texto);
+
+//Obtener objeto librosEjemplo
+XElement librosEjemplo = libroRaiz.Element("librosEjemplo");
+
+//Obtener lista de libros dentro de librosEjemplo
+IEnumerable<XElement> libros = librosEjemplo.Descendants("libro");
+
+//has un foreach y por cada uno haz lo que tengas que hacer
+foreach(XElement libro in libros)
+{
+    string nombre = libro.Element("nombre").Value;
+    string email = libro.Element("email").Value;
+    ...
+}
+
+foreach (XmlNode node in doc.DocumentElement.ChildNodes)
+            {
+                String id = node.Attributes["id"].Value;
+                Console.WriteLine("id: " + id);
+
+                if (node.HasChildNodes)
+                {
+                    for (int i = 0; i < node.ChildNodes.Count; i++)
+                    {
+                        Console.WriteLine(node.ChildNodes[i].Name + " : " + node.ChildNodes[i].InnerText);
+                    }
+                }
+            }
+			
+			
+			
+			
+			
+ 
+
+}
+
+}
