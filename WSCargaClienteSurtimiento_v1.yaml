@@ -1,0 +1,179 @@
+swagger: '2.0'
+info:
+  version: 0.0.2
+  title: Servicio para consultar los presupuestos Validos y carga del detalle del presupuesto
+  description: Servicio para consultar los presupuestos Validos
+host: 10.51.251.159:9004
+basePath: /WSBAZCREDCDT
+schemes:
+  - https
+produces:
+  - application/json
+paths:
+  /WSCargaClienteSurtimiento/cargaPresupuestosValidos:
+    post:
+      description: Servicio para consultar los presupuestos Validos
+      tags:
+        - Servicio para consultar los presupuestos Validos
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Parámetros de entrada.
+          description: Información de entrada.
+          required: true
+          schema:
+            $ref: '#/definitions/WSCargaClienteSurtimientoRequest'
+      responses:
+        200:
+          description: Operación exitosa
+          schema:
+            $ref: '#/definitions/WSCargaClienteSurtimientoResponse'
+          examples:
+            application/json: |-
+              {
+                    "codigo": "200.WSCargaClienteSurtimiento",
+                    "mensaje": "Presupuestos Validos -- ",
+                    "folio": "200",
+                    "resultado": {
+                      "datosPreparametricoLista": [
+                        {
+                          "folioPreparametrico": "170310",
+                          "negocioID": "1",
+                          "numeroTienda": "832",
+                          "clienteID": "101627",
+                          "digitoVerificador": "4",
+                          "tipoVenta": "2",
+                          "numeroEmpleado": "117   ",
+                          "numeroPlazo": "48",
+                          "periodo": "1",
+                          "pagoAbonoNormal": "428.00",
+                          "pagoUltimoAbono": "430.00",
+                          "fechaPresupuesto": "30/01/2020 09:47:00 a. m."
+                        },
+                        {
+                          "folioPreparametrico": "170314",
+                          "negocioID": "1",
+                          "numeroTienda": "832",
+                          "clienteID": "101627",
+                          "digitoVerificador": "4",
+                          "tipoVenta": "2",
+                          "numeroEmpleado": "117   ",
+                          "numeroPlazo": "48",
+                          "periodo": "1",
+                          "pagoAbonoNormal": "428.00",
+                          "pagoUltimoAbono": "430.00",
+                          "fechaPresupuesto": "30/01/2020 10:21:00 a. m."
+                        }
+                      ],
+                      "datosPreparametrico": null,
+                      "datosDetallePreparametricoLista": null,
+                      "detalleProntoPago": null,
+                      "detalleLigaClienteLCR": null
+                    }
+                  }
+        400:
+          description: Error cuando no recibe un content type válido
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+            application/json: |-
+              {
+                "codigo": "400.WSCargaClienteSurtimiento",
+                "mensaje": "Solicitud incorrecta",
+                "folio": "Co-201909250626217206",
+                "info": "https://baz-developer.bancoazteca.com.mx/errors#400.CobranzaCredito-CotizadorConsumoTel.104400",
+                "detalles": [
+                  ""
+                ]
+              }
+        404:
+          description: Error cuando se realiza una solicitud a un recurso que no está definido
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+            application/json: |-
+              {
+                "codigo": "404.WSCargaClienteSurtimiento",
+                "mensaje": "Recurso no encontrado",
+                "folio": "Co-201909061905470600",
+                "info": "https://baz-developer.bancoazteca.com.mx/errors#404.CobranzaCredito-CotizadorConsumoTel.104404",
+                "detalles": [
+                  ""
+                ]
+              }
+        500:
+          description: Error interno en el servidor.
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+            application/json: |-
+               {
+                  "codigo": "500.WSCargaClienteSurtimiento",
+                  "mensaje": "Error inesperado en la aplicación",
+                  "folio": "Co-201909061515470600",
+                  "info": "https://baz-developer.bancoazteca.com.mx/errors#500.CobranzaCredito-CotizadorConsumoTel.104500",
+                  "detalles": [
+                    ""
+                  ]
+                }
+definitions:
+    WSCargaClienteSurtimientoRequest:
+     type: object
+     properties:
+      paisClienteUnico:
+        type: string
+        description: paisClienteUnico
+        example: 01
+      canalClienteUnico:
+          type: string
+          description: canalClienteUnico
+          example: 01
+      sucursalClienteUnico:
+            type: string
+            description: sucursalClienteUnico
+            example: 832
+      folioClienteUnico:
+              type: string
+              description: folioClienteUnico
+              example: 57
+      sucursalGestora:
+                type: string
+                description: sucursalGestora
+                example: 832
+    WSCargaClienteSurtimientoResponse:
+     type: object
+     properties:
+      codigo:
+        type: string
+        description: Código operación
+        example: 200.CobranzaCredito-CotizadorConsumoTel.104200
+      mensaje:
+        type: string
+        description: Descripción de la operación
+        example: Operación exitosa
+      folio:
+        type: string
+        description: Folio de la operación
+        example: Co-201909061024408700
+    error:
+     type: object
+     properties:
+      codigo:
+        type: string
+        description: Código del error.
+      mensaje:
+        type: string
+        description: Descripción del error.
+      folio: 
+        type: string
+        description: Número de folio de la operación.
+      info:
+        type: string
+        description: Rutas de ayuda para atender el error.
+      detalles:
+        type: array
+        items:
+          type: string
