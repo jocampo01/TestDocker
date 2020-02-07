@@ -1,0 +1,45 @@
+$ffmpeg = FFMpeg\FFMpeg::create();
+$video = $ffmpeg->open('video.mpg');
+$video->filters()->resize(new FFMpeg\Coordinate\Dimension(320, 240))->synchronize();
+$video->save(new FFMpeg\Format\Video\X264(), 'export-x264.mp4')
+
+function convertFile($audio, $image)
+{
+    $output = str_replace(".mp3", ".mp4", $audio);
+    $shellOutput = shell_exec("ffmpeg  -loop 1 -r 2 -i \"$image\" -i \"$audio\" -shortest -c:v libx264 -preset medium -tune stillimage -crf 28 -c:a copy $output");
+    echo $shellOutput;
+
+}
+
+<?php
+$extension = "ffmpeg";
+$extension_soname = $extension . "." . PHP_SHLIB_SUFFIX;
+$extension_fullname = PHP_EXTENSION_DIR . "/" . $extension_soname;
+
+// load extension
+if(!extension_loaded($extension)) {
+    dl($extension_soname) or die("Can't load extension $extension_fullname\n");
+}
+?>
+
+/usr/bin/ffmpeg
+
+echo shell_exec("/usr/local/bin/ffmpeg  -i test.mp3  -codec:a libmp3lame -b:a 128k out.mp3");
+
+ echo shell_exec("ffmpeg  -i test.mp3  -codec:a libmp3lame -b:a 128k  out.mp3");
+ 
+ echo shell_exec("/usr/local/bin/ffmpeg -i test.mp3 -codec:a libmp3lame -b:a 128k out.mp3 2>&1");
+ 
+  exec("ffmpeg  -i test.mp3  -codec:a libmp3lame -b:a 128k  out.mp3");
+  
+  ffmpeg -i input.mp4 -i input.mp3 -c copy -map 0:v:0 -map 1:a:0 output.mp4
+  
+  ffmpeg -i input.mp4 -i input.wav -c:v copy -map 0:v:0 -map 1:a:0 -c:a aac -b:a 192k output.mp4
+  
+  ffmpeg -i video.mp4 -i audio.wav -c:v copy -c:a aac -strict experimental output.mp4
+  
+  ffmpeg.exe -ss 00:00:10  -t 5 -i "video.mp4" -ss 0:00:01 -t 5 -i "music.m4a" -map 0:v:0 -map 1:a:0 -y out.mp4
+  
+  ffmpeg -i "videoFile.mp4" -i "audioFile.mp3" -shortest outPutFile.mp4
+  
+  ffmpeg.exe -i AudioT.m4a -i VideoT.mp4 -acodec copy -vcodec copy muxed.mp4
